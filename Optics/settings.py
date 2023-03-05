@@ -12,8 +12,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load .env file
+load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -72,6 +77,11 @@ INSTALLED_APPS = [
     # third party installed apps
     'rest_framework',
     'corsheaders',
+
+    # project apps
+    'order',
+    'user',
+    'common',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +128,11 @@ DATABASES = {
         'PASSWORD': os.environ.get("DATABASE_PASSWORD"),
         'HOST': os.environ.get("DATABASE_HOST"),
         'PORT': os.environ.get("DATABASE_PORT"),
+        # 'NAME': "optics",
+        # 'USER': "admin",
+        # 'PASSWORD': "admin",
+        # 'HOST': "localhost",
+        # 'PORT': 5432,
     }
 }
 
