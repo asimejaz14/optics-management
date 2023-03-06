@@ -3,6 +3,7 @@ from django.db import models
 from common.enums import ORDER_STATUS, OrderStatus
 from common.models import DateTimeLog
 from order.helpers import generate_tracking_number
+from django.utils import timezone
 
 
 # Create your models here.
@@ -10,7 +11,7 @@ class Order(DateTimeLog):
     customer_name = models.CharField(max_length=200, null=True, blank=True)
     customer_contact = models.CharField(max_length=200, null=True, blank=True)
     customer_dob = models.DateField(null=True, blank=True)
-    booking_datetime = models.DateTimeField(null=True, blank=True)
+    booking_datetime = models.DateTimeField(default=timezone.now)
     delivery_datetime = models.DateTimeField(null=True, blank=True)
     total_cost = models.IntegerField(null=True, blank=True)
     advance_payment = models.IntegerField(null=True, blank=True)
@@ -32,3 +33,8 @@ class Order(DateTimeLog):
 
     def __str__(self):
         return self.tracking_number
+
+    def save(self, *args, **kwargs):
+        if self.total_cost and self.advance_payment:
+            self.remaining_balance = self.total_cost - self.advance_payment
+        super(Order, self).save(*args, **kwargs)
