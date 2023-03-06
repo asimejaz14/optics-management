@@ -1,6 +1,6 @@
 from django.db import models
 
-from common.enums import ORDER_STATUS, OrderStatus
+from common.enums import ORDER_STATUS, OrderStatus, STATUS, Status
 from common.models import DateTimeLog
 from order.helpers import generate_tracking_number
 from django.utils import timezone
@@ -28,7 +28,8 @@ class Order(DateTimeLog):
     delivered_by = models.CharField(max_length=200, null=True, blank=True)
     checked_by = models.CharField(max_length=200, null=True, blank=True)
     delivered_datetime = models.DateTimeField(null=True, blank=True)
-    status = models.CharField(max_length=1, choices=ORDER_STATUS, default=OrderStatus.PLACED)
+    order_status = models.CharField(max_length=1, choices=ORDER_STATUS, default=OrderStatus.PLACED)
+    status = models.CharField(max_length=1, choices=STATUS, default=Status.ACTIVE)
     tracking_number = models.CharField(max_length=50, null=True, blank=True, default=generate_tracking_number)
 
     def __str__(self):
