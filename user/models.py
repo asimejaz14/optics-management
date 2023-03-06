@@ -48,8 +48,8 @@ class User(AbstractUser, DateTimeLog):
     is_staff = None
     is_superuser = None
     # Use EMAIL insted of USERNAME
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = []
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'username']
 
     def save(self, *args, **kwargs):
         if self.email:
