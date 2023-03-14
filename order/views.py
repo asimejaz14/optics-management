@@ -9,8 +9,11 @@ from order.order_controller import OrderController
 class OrderView(APIView):
     order_controller = OrderController
 
-    def get(self, request, id=None):
-        return self.order_controller.get_order(request, id)
+    def get(self, request, tracking_number=None):
+        return self.order_controller.get_order(request, tracking_number)
 
     def post(self, request):
         return self.order_controller.create_order(request)
+
+    def delete(self, request, tracking_number=None):
+        return self.order_controller.delete_order(request, tracking_number)

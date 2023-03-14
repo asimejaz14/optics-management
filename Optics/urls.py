@@ -17,8 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 extra_patterns = [
-    path('order-management', include('order.urls')),
-    path('order-management/', include('order.urls')),
+    path('orders', include('order.urls')),
+    path('orders/', include('order.urls')),
 ]
 
 
