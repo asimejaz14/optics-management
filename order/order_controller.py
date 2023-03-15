@@ -31,13 +31,10 @@ class OrderController:
     @classmethod
     def create_order(cls, request):
         try:
-            print("1")
             serialized_order = OrderSerializer(data=request.data)
-            print("2")
             if serialized_order.is_valid():
-                print("3")
+                print(serialized_order.validated_data)
                 serialized_order.save()
-                print("4")
                 return Response(data=serialized_order.data, status=HTTP_201_CREATED)
             return Response(data=serialized_order.errors, status=HTTP_400_BAD_REQUEST)
         except Exception as e:
