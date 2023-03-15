@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework.permissions import AllowAny
 
 # Create your views here.
 from rest_framework.views import APIView
@@ -8,6 +9,7 @@ from order.order_controller import OrderController
 
 class OrderView(APIView):
     order_controller = OrderController
+    permission_classes = [AllowAny]
 
     def get(self, request, tracking_number=None):
         return self.order_controller.get_order(request, tracking_number)
