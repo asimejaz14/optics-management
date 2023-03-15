@@ -40,9 +40,15 @@ class OrderController:
             return Response(data=e, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
     @classmethod
-    def updated_order(cls, request):
+    def update_order(cls, request, tracking_number=None):
         try:
-            ...
+            order = Order.objects.filter(tracking_number__iexact=tracking_number, status=Status.ACTIVE).first()
+            if not order:
+                return Response(data=None, status=HTTP_200_OK)
+            serialized_order = OrderSerializer(order, data=request.data, partial=True)
+            if serialized_order.is_valid():
+                serialized_order.save()
+                return Response(data=serialized_order.data, status=HTTP_200_OK)
         except Exception as e:
             return Response(data=e, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
