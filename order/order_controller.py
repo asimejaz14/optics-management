@@ -33,7 +33,6 @@ class OrderController:
         try:
             serialized_order = OrderSerializer(data=request.data)
             if serialized_order.is_valid():
-                print(serialized_order.validated_data)
                 serialized_order.save()
                 return Response(data=serialized_order.data, status=HTTP_201_CREATED)
             return Response(data=serialized_order.errors, status=HTTP_400_BAD_REQUEST)
