@@ -38,4 +38,6 @@ class Order(DateTimeLog):
     def save(self, *args, **kwargs):
         if self.total_cost and self.advance_payment:
             self.remaining_balance = self.total_cost - self.advance_payment
+        if self.customer_contact and self.customer_contact[0] == "0":
+            self.customer_contact = self.customer_contact.replace("0", "+92", 1)
         super(Order, self).save(*args, **kwargs)

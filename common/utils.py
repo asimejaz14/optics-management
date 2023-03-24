@@ -7,10 +7,15 @@ from Optics.settings import TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_NUMBER
 # Set environment variables for your credentials
 # Read more at http://twil.io/secure
 
-client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
-message = client.messages.create(
-    body="Hello from papa",
-    from_=TWILIO_NUMBER,
-    to="+923333998028"
-)
-print(message.body)
+
+def send_message(receiver_number, content):
+    try:
+        client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+        message = client.messages.create(
+            body=content,
+            from_=TWILIO_NUMBER,
+            to=receiver_number
+        )
+        print(message.body)
+    except Exception as e:
+        print("TWILIO", e)
