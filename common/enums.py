@@ -37,3 +37,12 @@ PLACED_TEXT = "Dear $CUSTOMER, your order has been created with tracking no. $TR
 IN_PROGRESS_TEXT = "Dear $CUSTOMER, your order with tracking no. $TRACKING_NUMBER is now in-progress!"
 READY_TEXT = "Dear $CUSTOMER, your order with tracking no. $TRACKING_NUMBER is ready to pick up."
 COMPLETED_TEXT = "Dear $CUSTOMER, thank you for shopping with us."
+
+
+ORDER_SORTING_KEYS = {
+    "created_at": "created_at",
+    "name": "name",
+    "tracking_number": "tracking_number",
+    "updated_at": "updated_at",
+    "order_status": "order_status",
+}

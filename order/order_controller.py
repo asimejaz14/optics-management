@@ -1,8 +1,9 @@
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_204_NO_CONTENT, HTTP_202_ACCEPTED
 
 from common import enums
-from common.enums import Status, OrderStatus
+from common.enums import Status, OrderStatus, ORDER_SORTING_KEYS
 from common.utils import send_message
 from order.helpers import check_order_status_update
 from order.models import Order
@@ -23,7 +24,28 @@ class OrderController:
                 return Response(data=serialized_order.data, status=HTTP_200_OK)
 
             # all orders detail
-            orders = Order.objects.filter(status=Status.ACTIVE)
+            kwargs = {}
+            q = request.query_params.get("q")
+            date = request.query_params.get("date")
+            order_by = request.query_params.get("order_by", "created_at")
+            order = request.query_params.get("order", "desc")
+            limit = request.query_params.get("limit")
+            offset = request.query_params.get("offset")
+            # export = request.query_params.get("export")
+
+            if q:
+                kwargs['customer_name'] = q
+            if date:
+                kwargs['created_at__date'] = date
+            if order == "asc":
+                sort = ORDER_SORTING_KEYS[order_by]
+            else:
+                sort = "-" + ORDER_SORTING_KEYS[order_by]
+
+            orders = Order.objects.filter(status=Status.ACTIVE).order_by(sort)
+            if limit and offset:
+                pagination = LimitOffsetPagination()
+                orders = pagination.paginate_queryset(orders, request)
             if not orders:
                 return Response(data=None, status=HTTP_204_NO_CONTENT)
             serialized_orders = OrderSerializer(orders, many=True)
