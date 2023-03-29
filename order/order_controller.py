@@ -53,8 +53,7 @@ class OrderController:
             if not orders:
                 return Response(data=None, status=HTTP_204_NO_CONTENT)
             serialized_orders = OrderSerializer(orders, many=True)
-            return Response(data=serialized_orders.data, status=HTTP_200_OK)
-            # return Response(data={"count": count, "data": serialized_orders.data}, status=HTTP_200_OK)
+            return Response(data={"count": count, "data": serialized_orders.data}, status=HTTP_200_OK)
         except Exception as e:
             return Response(data=e, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
