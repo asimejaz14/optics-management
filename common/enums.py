@@ -30,3 +30,10 @@ ORDER_STATUS = [
     (2, 'READY'),
     (3, 'COMPLETED'),
 ]
+
+
+# Mobile text msgs
+PLACED_TEXT = "Dear $CUSTOMER, your order has been created with tracking no. $TRACKING_NUMBER."
+IN_PROGRESS_TEXT = "Dear $CUSTOMER, your order with tracking no. $TRACKING_NUMBER is now in-progress!"
+READY_TEXT = "Dear $CUSTOMER, your order with tracking no. $TRACKING_NUMBER is ready to pick up."
+COMPLETED_TEXT = "Dear $CUSTOMER, thank you for shopping with us."

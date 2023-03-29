@@ -1,7 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_204_NO_CONTENT, HTTP_202_ACCEPTED
 
-from common.enums import Status
+from common import enums
+from common.enums import Status, OrderStatus
+from common.utils import send_message
+from order.helpers import check_order_status_update
 from order.models import Order
 from order.serializers import OrderSerializer
 
@@ -47,7 +50,11 @@ class OrderController:
                 return Response(data=None, status=HTTP_200_OK)
             serialized_order = OrderSerializer(order, data=request.data, partial=True)
             if serialized_order.is_valid():
-                serialized_order.save()
+                order = serialized_order.save()
+
+                # check if order status is updated
+                check_order_status_update(request, order)
+
                 return Response(data=serialized_order.data, status=HTTP_200_OK)
         except Exception as e:
             return Response(data=e, status=HTTP_500_INTERNAL_SERVER_ERROR)
