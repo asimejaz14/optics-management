@@ -47,9 +47,9 @@ class OrderController:
             if q:
                 orders = orders.filter(Q(customer_name__icontains=q) | Q(tracking_number=q))
             count = orders.count()
-            if limit and offset:
-                pagination = LimitOffsetPagination()
-                orders = pagination.paginate_queryset(orders, request)
+            # if limit and offset:
+            pagination = LimitOffsetPagination()
+            orders = pagination.paginate_queryset(orders, request)
             if not orders:
                 return Response(data=None, status=HTTP_204_NO_CONTENT)
             serialized_orders = OrderSerializer(orders, many=True)
