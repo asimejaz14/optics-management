@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_204_NO_CONTENT, HTTP_202_ACCEPTED
@@ -33,8 +34,6 @@ class OrderController:
             offset = request.query_params.get("offset")
             # export = request.query_params.get("export")
 
-            if q:
-                kwargs['customer_name'] = q
             if date:
                 kwargs['created_at__date'] = date
             if order == "asc":
@@ -42,7 +41,12 @@ class OrderController:
             else:
                 sort = "-" + ORDER_SORTING_KEYS[order_by]
 
-            orders = Order.objects.filter(status=Status.ACTIVE).order_by(sort)
+            kwargs['status'] = Status.ACTIVE
+
+            orders = Order.objects.filter(**kwargs).order_by(sort)
+            if q:
+                orders = orders.filter(Q(customer_name__icontains=q) | Q(tracking_number=q))
+            count = orders.count()
             if limit and offset:
                 pagination = LimitOffsetPagination()
                 orders = pagination.paginate_queryset(orders, request)
@@ -50,6 +54,7 @@ class OrderController:
                 return Response(data=None, status=HTTP_204_NO_CONTENT)
             serialized_orders = OrderSerializer(orders, many=True)
             return Response(data=serialized_orders.data, status=HTTP_200_OK)
+            # return Response(data={"count": count, "data": serialized_orders.data}, status=HTTP_200_OK)
         except Exception as e:
             return Response(data=e, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
