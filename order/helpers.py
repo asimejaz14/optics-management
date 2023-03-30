@@ -8,7 +8,7 @@ from common.utils import send_message
 
 
 def generate_tracking_number():
-    return (hashlib.md5((str(time.time()) + "!salt!").encode()).hexdigest()[:8]).upper()
+    return (hashlib.md5((str(time.time()) + "!salt!").encode()).hexdigest()[:10]).upper()
 
 
 def check_order_status_update(request, order):
