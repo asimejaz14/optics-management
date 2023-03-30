@@ -22,3 +22,11 @@ class OrderView(APIView):
 
     def delete(self, request, tracking_number=None):
         return self.order_controller.delete_order(request, tracking_number)
+
+
+class DashboardView(APIView):
+    order_controller = OrderController
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return self.order_controller.get_dashboard(request)
