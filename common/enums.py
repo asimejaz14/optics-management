@@ -41,7 +41,7 @@ COMPLETED_TEXT = "Dear $CUSTOMER, thank you for shopping with us."
 
 ORDER_SORTING_KEYS = {
     "created_at": "created_at",
-    "customer_name": "name",
+    "customer_name": "customer_name",
     "tracking_number": "tracking_number",
     "updated_at": "updated_at",
     "status": "order_status",
