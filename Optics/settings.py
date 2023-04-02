@@ -28,7 +28,7 @@ load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.environ.get("DEBUG") is "True" else False
+DEBUG = True if os.environ.get("DEBUG") == "True" else False
 
 ALLOWED_HOSTS = ["*"]
 
