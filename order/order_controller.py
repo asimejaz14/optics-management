@@ -56,6 +56,7 @@ class OrderController:
             serialized_orders = OrderSerializer(orders, many=True)
             return Response(data={"count": count, "data": serialized_orders.data}, status=HTTP_200_OK)
         except Exception as e:
+            print(e)
             return Response(data=e, status=HTTP_500_INTERNAL_SERVER_ERROR)
 
     @classmethod
