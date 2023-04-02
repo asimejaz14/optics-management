@@ -28,7 +28,7 @@ load_dotenv(os.path.join(os.path.dirname(os.path.dirname(__file__)), ".env"))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
@@ -51,9 +51,9 @@ CORS_ALLOW_HEADERS = [
     "use-case",
     "x-csrftoken",
     "x-requested-with",
-    "user-platform",
-    "os",
-    "usecase",
+    # "user-platform",
+    # "os",
+    # "usecase",
 ]
 CORS_ALLOW_METHODS = [
     'DELETE',
