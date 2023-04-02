@@ -1,7 +1,8 @@
 from django.db.models import Q
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, HTTP_204_NO_CONTENT, HTTP_202_ACCEPTED
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, \
+    HTTP_204_NO_CONTENT, HTTP_202_ACCEPTED
 
 from common import enums
 from common.enums import Status, OrderStatus, ORDER_SORTING_KEYS
@@ -92,3 +93,16 @@ class OrderController:
             return Response(data=None, status=HTTP_202_ACCEPTED)
         except Exception as e:
             return Response(data=e, status=HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @classmethod
+    def get_dashboard(cls, request):
+
+        data = {
+            "total_orders": Order.objects.filter(status=1).count(),
+            "created_orders": Order.objects.filter(status=1, order_status=0).count(),
+            "in_progress_orders": Order.objects.filter(status=1, order_status=1).count(),
+            "ready_orders": Order.objects.filter(status=1, order_status=2).count(),
+            "completed_orders": Order.objects.filter(status=1, order_status=3).count()
+        }
+
+        return Response(data=data, status=HTTP_200_OK)

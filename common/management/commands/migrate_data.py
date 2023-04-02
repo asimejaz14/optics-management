@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
         from order.models import Order
 
-        for i in range(0, 500):
+        for i in range(0, 200):
             data_dict = {
                 "customer_name": fake.name(),
                 "customer_contact": "+923" + str(random.randint(0, 9)) + str(random.randint(0, 9)) + str(
