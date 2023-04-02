@@ -6,7 +6,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_RE
 
 from common import enums
 from common.enums import Status, OrderStatus, ORDER_SORTING_KEYS
-from common.utils import send_message
+from common.utils import send_message, get_default_query_param
 from order.helpers import check_order_status_update
 from order.models import Order
 from order.serializers import OrderSerializer
@@ -27,12 +27,12 @@ class OrderController:
 
             # all orders detail
             kwargs = {}
-            q = request.query_params.get("q")
-            date = request.query_params.get("date")
-            order_by = request.query_params.get("order_by", "created_at")
-            order = request.query_params.get("order", "desc")
-            limit = request.query_params.get("limit")
-            offset = request.query_params.get("offset")
+            q = get_default_query_param(request, "q", None)
+            date = get_default_query_param(request, "date", None)
+            order_by = get_default_query_param(request, "order_by", "created_at")
+            order = get_default_query_param(request, "order", "desc")
+            limit = get_default_query_param(request, "limit", None)
+            offset = get_default_query_param(request, "offset", None)
             # export = request.query_params.get("export")
 
             if date:
