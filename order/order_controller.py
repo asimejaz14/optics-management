@@ -52,8 +52,7 @@ class OrderController:
                 pagination = LimitOffsetPagination()
                 orders = pagination.paginate_queryset(orders, request)
             if not orders:
-                # return Response(data=None, status=HTTP_204_NO_CONTENT)
-                return Response(data=[], status=HTTP_200_OK)
+                return Response(data=None, status=HTTP_204_NO_CONTENT)
             serialized_orders = OrderSerializer(orders, many=True)
             return Response(data={"count": count, "data": serialized_orders.data}, status=HTTP_200_OK)
         except Exception as e:
